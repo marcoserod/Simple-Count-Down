@@ -18,13 +18,24 @@ import { ChakraProvider } from "@chakra-ui/react";
 import beep from "../assets/alarm.mp3"
 
 export const CountDown = () => {
-  const [timeLeft, setTimeLeft] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [laps, setLaps] = useState(0);
   let initialTime = minutes * 60 + seconds;
   const alarm = new Audio(beep);
+
+  const confirmFinish = () => {
+    alert('El tiempo ha terminado');
+    alarm.pause()
+
+}
+  const onFinish = () => {
+    setLaps((prev) => prev + 1);
+    alarm.play().then(()=> confirmFinish())
+    
+  }
 
   useEffect(() => {
     if (isRunning && timeLeft > 0) {
@@ -37,6 +48,8 @@ export const CountDown = () => {
       };
     } else if (timeLeft === 0) {
       setIsRunning(false);
+      setTimeLeft(null)
+      onFinish()
     }
   }, [isRunning, timeLeft]);
 
@@ -63,9 +76,7 @@ export const CountDown = () => {
   const handleSecondChange = (value) => {
     setSeconds(Number(value));
   };
-
-
-
+   
   const renderTime = ({ remainingTime }) => {
     const remainingMinutes = Math.floor(remainingTime / 60); // Get the whole number of minutes
     const remainingSeconds = remainingTime % 60;
@@ -78,16 +89,6 @@ export const CountDown = () => {
       </div>
     );
   };
-  const confirmFinish = () => {
-   alert('El tiempo a terminado');
-   alarm.pause(); 
-  }
-
-  const onFinish = () => {
-    setLaps((prev) => prev + 1);
-    alarm.play()
-    confirmFinish()
-  }
 
   
   return (
@@ -100,7 +101,7 @@ export const CountDown = () => {
           {!isRunning ? (
             <Stack mt={4} spacing={4} direction="row">
               <FormControl>
-                <FormLabel>Minutes</FormLabel>
+                <FormLabel>Minutos</FormLabel>
                 <NumberInput
                   min={0}
                   max={59}
@@ -117,7 +118,7 @@ export const CountDown = () => {
                 </NumberInput>
               </FormControl>
               <FormControl>
-                <FormLabel>Seconds</FormLabel>
+                <FormLabel>Segundos</FormLabel>
                 <NumberInput
                   min={0}
                   max={59}
@@ -161,7 +162,6 @@ export const CountDown = () => {
                       initialTime / 4,
                       0,
                     ]}
-                    onComplete={onFinish}
                     >
                   {renderTime}
                 </CountdownCircleTimer>

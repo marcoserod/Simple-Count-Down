@@ -1,5 +1,5 @@
 import { MoonIcon, SunIcon } from "@chakra-ui/icons"
-import { Button, HStack, Switch, useColorMode } from "@chakra-ui/react"
+import {  HStack, Switch, useColorMode } from "@chakra-ui/react"
 
 
 export const Navbar = () => {
