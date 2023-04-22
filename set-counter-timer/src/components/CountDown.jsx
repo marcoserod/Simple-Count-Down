@@ -29,6 +29,7 @@ export const CountDown = () => {
   const confirmFinish = () => {
     alert('El tiempo ha terminado');
     alarm.pause()
+    alarm.currentTime = 0;
 
 }
   const onFinish = () => {
