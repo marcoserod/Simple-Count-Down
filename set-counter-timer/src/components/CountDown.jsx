@@ -62,7 +62,7 @@ export const CountDown = () => {
     setMinutes(0);
     setSeconds(0);
     setIsRunning(false);
-    setTimeLeft(0);
+    setTimeLeft(null);
   };
 
   const stopTimer = () => {
